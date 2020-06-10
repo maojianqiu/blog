@@ -49,7 +49,8 @@
         t.name typename, t.id typeid,
         u.nickname, u.avatar
         from t_blog b, t_type t, t_user u
-        where b.type_id = t.id and  u.id = b.user_id order by b.update_time desc
+        where b.type_id = t.id and  u.id = b.user_id and b.published=1
+        order by b.update_time desc
     </select>
 
     <select id="getAllBlog" resultMap="blog">  /*后台博客展示*/
@@ -79,12 +80,14 @@
 
     <select id="getListRecommendBlogTop" resultMap="blog">
         select t.id , t.title
-        from t_blog t
+        from t_blog t where t.published=1
         ORDER BY t.update_time limit #{size}
     </select>
 
     <select id="getAllRecommendBlog" resultMap="blog">
-        select id, title, recommend from t_blog order by update_time desc;
+        select id, title, recommend from t_blog
+        where published=1
+        order by update_time desc;
     </select>
 
     <select id="getBlog" resultMap="blog">
